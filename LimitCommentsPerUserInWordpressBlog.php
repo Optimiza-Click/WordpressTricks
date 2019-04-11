@@ -2,6 +2,8 @@
 
 class LimitCommentsPerUserInWordpressBlog
 {
+    const NUMBER = 1;
+
     public function __construct()
     {
         add_filter('pre_comment_approved', [$this, 'commentCheck'], 99, 2);
@@ -13,8 +15,8 @@ class LimitCommentsPerUserInWordpressBlog
                 'user_id' => $comment['user_ID'],
                 'post_id' => $comment['comment_post_ID']
             ];
-            $userComment = get_comments( $args );
-            if ( 1 <= count( $userComment ) )
+
+            if ( self::NUMBER <= get_comments( $args ) )
                 return 0;
         }
         return $approved;

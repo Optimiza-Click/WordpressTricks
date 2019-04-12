@@ -10,14 +10,12 @@ class LimitCommentsPerUserInWordpressBlog
     }
 
     public function commentCheck($approved, $comment) {
-        if ( $comment['user_ID'] ) {
-            $args = [
-                'user_id' => $comment['user_ID'],
-                'post_id' => $comment['comment_post_ID']
-            ];
-
-            if ( self::NUMBER <= get_comments( $args ) )
-                return 0;
+        if ( isset($comment['user_ID']) ) {
+            
+            $args['user_id'] = $comment['user_ID'];
+            
+            if ( self::NUMBER <= count(get_comments( $args )) )
+                return 0; //0 = to aprove, 1 = aprove, 'trash' and 'spam'
         }
         return $approved;
     }
